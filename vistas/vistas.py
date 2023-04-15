@@ -60,6 +60,7 @@ class VistaBlacklistInformacion(Resource):
                     return {"reported": "TRUE", "Blocked_reason": requestEmail.blocked_reason}, 201
                 else:
                     return {"reported": "FALSE", "msg": "Email not reported"}, 210  
+                
             else:
                 return {"msg": "Token Missing"}, 410
         except TypeError:
