@@ -46,18 +46,26 @@ class VistaBlacklist(Resource):
             return {"msg": "Error values"}, 400
 
 
-
-
-
 class VistaBlacklistInformacion(Resource):
     
-    def get(self):
-        try:
-            current_user = get_jwt_identity()
-            black_list = Blacklist.query.filter_by(email=current_user).all()
-            return black_list_schema_get.dump(black_list), 200
-        except ValidationError as err:
-            return err.messages, 422
+    def get(self, email):
+        try:      
+            authorization_header = request.headers.get('Authorization')
+            if authorization_header is not None and 'Bearer' in authorization_header:
+                token = authorization_header.split(' ')[1]
+                if token != 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUz':
+                    return {"msg": "Token Invalid"}, 412
+                requestEmail = Blacklist.query.filter(Blacklist.email == email).first()
+                if email == requestEmail.email:
+                    return {"reported": "TRUE", "Blocked_reason": requestEmail.blocked_reason}, 201
+                else:
+                    return {"reported": "FALSE", "msg": "Email not reported"}, 210  
+            else:
+                return {"msg": "Token Missing"}, 410
+        except TypeError:
+            return {"msg": "Error values"}, 400
+        except KeyError:
+            return {"msg": "Error values"}, 400
 
 
 

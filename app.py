@@ -5,7 +5,7 @@ from flask_restful import Api
 from dotenv import load_dotenv
 from os import getenv
 from modelos import db
-from vistas import VistaBlacklist
+from vistas import VistaBlacklist, VistaBlacklistInformacion
 
 
 def set_env():
@@ -33,6 +33,8 @@ cors = CORS(app)
 
 api = Api(app)
 api.add_resource(VistaBlacklist, '/blacklist')
+api.add_resource(VistaBlacklistInformacion, '/blacklist/<email>')
+
 
 
 if __name__ == "__main__":
