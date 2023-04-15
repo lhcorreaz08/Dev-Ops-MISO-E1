@@ -82,5 +82,3 @@ def obtener_direccion_ip():
         pass
     return direccion_ip
 
-
-#activar entorno virtual venv en windows con:   venv\Scripts\activate
