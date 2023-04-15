@@ -75,15 +75,7 @@ class VistaBlacklistInformacion(Resource):
 
 class Health(Resource):
     def get(self):
-        return "pong", 200
+        return "Healthy", 200
 
 
-
-def obtener_direccion_ip():
-    direccion_ip = ''
-    try:
-        direccion_ip = socket.gethostbyname(socket.gethostname())
-    except socket.gaierror:
-        pass
-    return direccion_ip
 
