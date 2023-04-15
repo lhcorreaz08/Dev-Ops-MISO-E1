@@ -73,6 +73,11 @@ class VistaBlacklistInformacion(Resource):
             return {"msg": "Error values"}, 400
 
 
+class Health(Resource):
+    def get(self):
+        return "pong", 200
+
+
 
 def obtener_direccion_ip():
     direccion_ip = ''
