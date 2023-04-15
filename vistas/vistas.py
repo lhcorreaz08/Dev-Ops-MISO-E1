@@ -48,21 +48,25 @@ class VistaBlacklist(Resource):
 
 class VistaBlacklistInformacion(Resource):
     
-    def get(self, email):
+    def get(self):
         try:      
-            authorization_header = request.headers.get('Authorization')
-            if authorization_header is not None and 'Bearer' in authorization_header:
-                token = authorization_header.split(' ')[1]
-                if token != 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUz':
-                    return {"msg": "Token Invalid"}, 412
-                requestEmail = Blacklist.query.filter(Blacklist.email == email).first()
-                if email == requestEmail.email:
-                    return {"reported": "TRUE", "Blocked_reason": requestEmail.blocked_reason}, 201
+            if request and request.args and 'email' in request.args and request.args.get('email') is not None and request.args.get('email') != '':
+                email = request.args.get('email')
+                authorization_header = request.headers.get('Authorization')
+                if authorization_header is not None and 'Bearer' in authorization_header:
+                    token = authorization_header.split(' ')[1]
+                    if token != 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUz':
+                        return {"msg": "Token Invalid"}, 412
+                    requestEmail = Blacklist.query.filter(Blacklist.email == email).first()
+                    if requestEmail is not None and email == requestEmail.email:
+                        return {"reported": "TRUE", "Blocked_reason": requestEmail.blocked_reason}, 201
+                    else:
+                        return {"reported": "FALSE", "msg": "Email not reported"}, 210  
+                   
                 else:
-                    return {"reported": "FALSE", "msg": "Email not reported"}, 210  
-                
+                    return {"msg": "Token Missing"}, 410
             else:
-                return {"msg": "Token Missing"}, 410
+                return {"msg": "Missing fields"}, 400
         except TypeError:
             return {"msg": "Error values"}, 400
         except KeyError:

@@ -33,7 +33,7 @@ cors = CORS(application)
 
 api = Api(application)
 api.add_resource(VistaBlacklist, '/blacklist')
-api.add_resource(VistaBlacklistInformacion, '/blacklist/<email>')
+api.add_resource(VistaBlacklistInformacion, '/blacklist')
 
 
 
